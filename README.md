@@ -1,4 +1,4 @@
-**L**inset **I**s **N**ot a **S**ocial **E**nginering **T**ool
+Linset Is Not a Social Enginering Tool
 ======
 
 First of all, commented that this is a project for educational purposes that have served to me (and hopefully others) to be more in touch with the world of programming and Wireless. It is prohibited under any circumstances the use this tool in foregin Wireless Networks!
@@ -176,6 +176,21 @@ CHANGELOG
 ## #Organizacion de codigo
 ## #Mejorada la busqueda de actualizaciones (casi directa)
 ## #Cambiada ruta de guardado del backup
+##
+########## 21-03-2014 LINSET 0.13
+##
+## #Ampliado tiempo de espera antes de detener el atque
+## #Corregido bug al hacer backup
+## #Añadido reinicio de NetworkManager para Wifislax 4.8
+## #Desautentificacion masiva se hace exclusivamente con mdk3
+## #Fallo al reiniciar networkmanager cuando acaba el ataque
+## #Fix cuando se autocierra linset despues de acabar el ataque
+## #Añadido pyrit a dependecias
+## #Funcion de comprobacion estricta del handshake
+## #Eliminadas dependencias inecesarias
+## #Mayor desplazamiento por los menus
+## #Añadido lenguaje Frances
+## #Añadido lenguaje Portugues
 ##
 ##########
 ```
