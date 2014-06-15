@@ -192,6 +192,17 @@ CHANGELOG
 ## #Añadido lenguaje Frances
 ## #Añadido lenguaje Portugues
 ##
+########## 16-06-2014 LINSET 0.14
+##
+## #Info del estado del handshake en captura
+## #Redirigido .cap para evitar salida de error de pyrit
+## #Capacidad para usar handshake ya capturado previamente
+## #Reconfiguradas liberias de jQuerry
+## #Arreglado bug de URL's complejas
+## #Desautentificar masivamente a varios MAC con igual ESSID
+## #Manipaular .cap complejos para usar el handshake del objetivo
+## #Invertido menu de comprobacion de handshake
+##
 ##########
 ```
 
