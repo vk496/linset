@@ -1669,7 +1669,7 @@ if __name__ == '__main__':
     while 1:
       data, addr = udps.recvfrom(1024)
       p=DNSQuery(data)
-      udps.sendto(p.Reply(ip), addr)
+      udps.sendto(p.reply(ip), addr)
       print 'Reply: %s -> %s' % (p.dominio, ip)
   except KeyboardInterrupt:
     print 'Finalizando'
