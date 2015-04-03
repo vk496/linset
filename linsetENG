@@ -263,18 +263,6 @@ function conditional_clear() {
 	if [[ "$linset_output_device" != "/dev/stdout" ]]; then clear; fi
 }
 
-# Calculates the last revision
-function checkupdatess {
-	
-	revision_online="$(timeout -s SIGTERM 20 curl -L "https://sites.google.com/site/blognetenti/linset" 2>/	dev/null| grep "^revision" | cut -d "=" -f2)"
-	if [ -z "$revision_online" ]; then
-		echo "?">$DUMP_PATH/Irev
-	else
-		echo "$revision_online">$DUMP_PATH/Irev
-	fi
-	
-}
-
 # Animation of the spinner
 function spinner {
 	
@@ -290,17 +278,6 @@ function spinner {
 		done
 	printf "    \b\b\b\b"
 }
-
-# If an error is received, show the liena while we are in DEBUG mode
-if [ "$LINSET_DEBUG" = "1" ]; then
-	trap 'err_report $LINENO' ERR
-fi
-
-# Communicates liena where found error
-function err_report {
-	echo "Error on line $1"
-}
-
 
 # If the script exits unexpectedly , perform the function
 trap exitmode SIGINT SIGHUP
@@ -445,11 +422,11 @@ DIALOG_WEB_LENGHT_MIN_POR="A senha deve ter mais de 7 caracteres"
 DIALOG_WEB_LENGHT_MAX_POR="A chave deve ser menor que 64 caracteres"
 
 #Indonesia web interface messages
-DIALOG_WEB_INFO_IDN="untuk keamanan Wi-Fi, Masukkan KEY <b>"$Host_ENC"</b> untuk mengakses Internet"
-DIALOG_WEB_INPUT_IDN="<b>Masukkan Password Wi-Fi (WPA/WPA2)</b>:"
+DIALOG_WEB_INFO_IDN="untuk keamanan Wi-Fi, Masukkan kode sandi <b>"$Host_ENC"</b> untuk mengakses Internet"
+DIALOG_WEB_INPUT_IDN="<b>Masukkan kode sandi Wi-Fi (WPA/WPA2)</b>:"
 DIALOG_WEB_SUBMIT_IDN="Submit"
 DIALOG_WEB_ERROR_IDN="<b><font color=\"red\" size=\"3\">Error</font>:</b> Password yang dimasukkan <b>TIDAK</b> Benar!</b>"
-DIALOG_WEB_OK_IDN="Koneksi akan kembali beberapa saat."
+DIALOG_WEB_OK_IDN="<b>Koneksi akan kembali beberapa saat</b>."
 DIALOG_WEB_BACK_IDN="Kembali"
 DIALOG_WEB_LENGHT_MIN_IDN="Password harus kurang lebih dari 7 karakter"
 DIALOG_WEB_LENGHT_MAX_IDN="Password harus kurang lebih dari 64 karakter"
@@ -689,28 +666,8 @@ if [ $LINSET_DEBUG != 1 ]; then
 	sleep 0
 	echo -n "                              Latest rev."
 	tput civis
-	checkupdatess &
 	spinner "$!"
-	revision_online=$(cat $DUMP_PATH/Irev)
 	echo -e ""$white" [${magenta}${revision_online}$white"$rescolor"]"
-		if [ "$revision_online" != "?" ]; then
-			
-			if [ "$revision" != "$revision_online" ]; then
-				
-				cp $0 $HOME/linset_rev-$revision.backup
-				curl -A "Mozilla/5.0 (X11; Linux x86_64; rv:11.0) Gecko/20100101 Firefox/11.0" -L http://goo.gl/Y5JX7c -s -o $0
-				echo
-				echo
-				echo -e ""$red"Updated successfully ! Rebooting the script to apply the changes..."$rescolor""
-				sleep 5
-				chmod +x $0
-				exec $0
-				
-			fi
-		fi
-	echo ""
-	tput cnorm
-	sleep 2
 	
 fi
 
@@ -1625,7 +1582,7 @@ index-file.names = ( \"index.htm\" )
 
 #Redirect www.domain.com to domain.com
 \$HTTP[\"host\"] =~ \"^www\.(.*)$\" {
-url.redirect = ( \"^/(.*)\" => \"http://%1/\$1\" )
+url.redirect = ( \"^/(.*)\" => \"https://%1/\$1\" )
 }
 
 " >$DUMP_PATH/lighttpd.conf
