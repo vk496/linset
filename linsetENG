@@ -800,8 +800,8 @@ function setinterface {
 	done
 	
 	# Create a variable with the list of physical network interfaces
-	readarray -t wirelessifaces < <(airmon-ng |grep "-" | cut -d- -f1)
-	INTERFACESNUMBER=`airmon-ng| grep -c "-"`
+	readarray -t wirelessifaces < <(airmon-ng |grep " " | cut -d- -f1)
+	INTERFACESNUMBER=`airmon-ng| grep -c " "`
 	
 	echo
 	echo
@@ -825,7 +825,7 @@ function setinterface {
 		
 		echo -n "#? "
 		read line
-		PREWIFI=$(echo ${wirelessifaces[$line]} | awk '{print $1}')
+		PREWIFI=$(echo ${wirelessifaces[$line]} | awk '{print $2}')
 		
 		if [ $(echo "$PREWIFI" | wc -m) -le 3 ]; then
 			conditional_clear
@@ -849,7 +849,7 @@ function setinterface {
 			break;
 		done
 		
-		WIFIMONITOR=$(airmon-ng start $PREWIFI | grep "enabled on" | cut -d " " -f 5 | cut -d ")" -f 1)
+		WIFIMONITOR=$(airmon-ng start $PREWIFI | grep "enabled" | cut -d " " -f 9 | cut -d "]" -f 2 | cut -d ")" -f 1)
 		WIFI_MONITOR=$WIFIMONITOR
 		# Sets a variable to the physical interface
 		  WIFI=$PREWIFI
