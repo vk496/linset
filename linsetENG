@@ -215,6 +215,13 @@
 ## #Arreglado problema de desautentificaciones mdk3
 ## #Mejorado contador de tiempo
 ##
+########## 19-06-2015 v1
+##
+## #Aircrack-ng 1.2 Rc 2
+## #Wireless wlanXmon 
+## #Detect Driver
+## #More
+##
 ##########
 clear
 
@@ -227,9 +234,9 @@ DUMP_PATH="/tmp/TMPlinset"
 # Number of desautentificaciones
 DEAUTHTIME="8"
 # Number of revision
-revision=38
+revision=0
 # Number of version
-version=0.14
+version=1.0
 # IP range that will be used in DHCP
 IP=192.168.1.1
 # Create a network variable from Gateway
