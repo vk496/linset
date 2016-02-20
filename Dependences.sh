@@ -5,7 +5,7 @@
 ## Script for install dependences ##
 ##			      				  ##
 ####################################
-
+echo "Updating..."
 sudo apt-get --yes update > /dev/null 2>&1 
 ##############################
 
@@ -83,14 +83,14 @@ echo -ne "Macchanger....."
 echo -ne "Mdk3....."
 	if ! hash mdk3 2>/dev/null; then
 		echo " Installing ..."
-		wget https://raw.githubusercontent.com/Wikelx/mdk3-v6/master/mdk3-v6.tar.bz2 > /dev/null 2>&1 
-		tar -vxjf mdk3-v6.tar.bz2 > /dev/null 2>&1 
-		cd mdk3-v6 > /dev/null 2>&1 
-		sudo make  > /dev/null 2>&1 
-		sudo make install > /dev/null 2>&1 
-		cd ..  > /dev/null 2>&1 
-		sudo rm -r mdk3-v6.tar.bz2 > /dev/null 2>&1 
-		sudo rm -r mdk3-v6 > /dev/null 2>&1 
+		wget https://raw.githubusercontent.com/Wikelx/mdk3-v6/master/mdk3-v6.tar.bz2
+		tar -vxjf mdk3-v6.tar.bz2
+		cd mdk3-v6
+		sudo make 
+		sudo make install
+		cd .. 
+		sudo rm -r mdk3-v6.tar.bz2
+		sudo rm -r mdk3-v6
 		
 	else
 		echo -e " ! ok"
@@ -101,9 +101,9 @@ echo -ne "Mdk3....."
 echo -ne "Nmap....."
 	if ! hash nmap 2>/dev/null; then
 		echo " Installing ..."
-		sudo apt-add-repository ppa:pi-rho/security -y  > /dev/null 2>&1  #ppa Nmap
-		sudo apt-get --yes update > /dev/null 2>&1 #update
-		sudo apt-get install nmap > /dev/null 2>&1 
+		sudo apt-add-repository ppa:pi-rho/security -y  #ppa Nmap
+		sudo apt-get --yes update  > /dev/null 2>&1 
+		sudo apt-get install nmap  > /dev/null 2>&1 
 	else
 		echo -e " ! ok"
 	fi
@@ -134,14 +134,14 @@ echo -ne "Python....."
 	if ! hash python 2>/dev/null; then
 		echo " Installing ..."
 		sudo apt-get install libssl-dev openssl > /dev/null 2>&1 
-		cd /opt > /dev/null 2>&1 
-		sudo wget https://www.python.org/ftp/python/3.5.1/Python-3.5.1.tar.xz > /dev/null 2>&1 
-		sudo tar -Jxf Python-3.5.1.tar.xz > /dev/null 2>&1 
-		cd Python-3.5.1 > /dev/null 2>&1 
-		./configure > /dev/null 2>&1 
-		sudo make > /dev/null 2>&1 
-		sudo make install > /dev/null 2>&1 
-		cd .. > /dev/null 2>&1 
+		cd /opt
+		sudo wget https://www.python.org/ftp/python/3.5.1/Python-3.5.1.tar.xz
+		sudo tar -Jxf Python-3.5.1.tar.xz  > /dev/null 2>&1 
+		cd Python-3.5.1
+		./configure
+		sudo make
+		sudo make install
+		cd ..
 		sudo rm -r Python-3.5.1.tar.xz > /dev/null 2>&1
 		sudo rm -r Python-3.4.1 > /dev/null 2>&1
 		sudo ln -fs /opt/Python-3.5.1/python /usr/bin/python > /dev/null 2>&1
