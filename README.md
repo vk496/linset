@@ -20,11 +20,13 @@ How it works
 10. It deauthentificate all users of the network, hoping to connect to FakeAP and enter the password.
 11. The attack will stop after the correct password checking
 
-
 Are necessary tengais installed dependencies, which `Linset` check and indicate whether they are installed or not.
 
 It is also preferable that you still keep the **patch for the negative channel**, because if not, you will have complications relizar to attack correctly
 
+Script for install dependencies (Dependences.sh)
+=======
+Check the installation and if not automatically download and install the necessary software for use linset.
 
 CHANGELOG
 =======
