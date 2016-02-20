@@ -5,7 +5,7 @@
 ## Script for install dependences ##
 ##			      				  ##
 ####################################
-echo "Updating..."
+echo "Updating system..."
 sudo apt-get --yes update > /dev/null 2>&1 
 ##############################
 
@@ -165,7 +165,7 @@ echo -ne "Unzip....."
 echo -ne "Xterm....."
 	if ! hash xterm 2>/dev/null; then
 		echo " Installing ..."
-		sudo apt-get xterm > /dev/null 2>&1
+		sudo apt-get install xterm > /dev/null 2>&1
 	else
 		echo -e " ! ok"
 	fi
