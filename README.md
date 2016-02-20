@@ -28,6 +28,12 @@ Script for install dependencies (Dependences.sh)
 =======
 Check the installation and if not automatically download and install the necessary software for use linset.
 
+```
+$ chmod +x Dependences.sh
+$ ./Dependences.sh
+```
+
+
 CHANGELOG
 =======
 
