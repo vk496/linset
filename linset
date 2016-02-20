@@ -229,7 +229,7 @@ DEAUTHTIME="8"
 # Numero de revision
 revision=38
 # Numero de version
-version=0.14
+version=0.15
 # Rango de IP que se usaran en DHCP
 IP=192.168.1.1
 # Crea variable de de una red a partir del Gateway
