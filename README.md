@@ -203,6 +203,14 @@ CHANGELOG
 ## #Manipaular .cap complejos para usar el handshake del objetivo
 ## #Invertido menu de comprobacion de handshake
 ##
+########## 31-10-2014 LINSET 0.15
+##
+## #Mas info a la hora de elegir una interfaz wireless
+## #Capacidad de intentar confirmar handshake local con aircrack-ng
+## #Añadido SIGHUP
+## #Arreglado problema de desautentificaciones mdk3
+## #Mejorado contador de tiempo
+##
 ##########
 ```
 
